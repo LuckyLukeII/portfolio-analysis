@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+import scipy.stats as stats
 
 def CAGR(df):
     years=(df.index[-1]-df.index[0]).days/365.25
@@ -28,4 +28,26 @@ def Max_Drawdown(df):
     return drawdown.min()
 
 def Calmar_Ratio(df):
-    return CAGR(df)/abs(Max_Drawdown(df))
+    ratio=CAGR(df)/abs(Max_Drawdown(df))
+    return ratio
+
+def Beta(df,benchmark='SPY'):
+    returns=df.pct_change()
+    b=returns.cov()[benchmark]/returns[benchmark].var()
+    return b
+
+def Jensen(df,risk=0.04,benchmark='SPY'):
+    yr_bench=df[benchmark].pct_change().mean()*252
+    Alpha=df.pct_change().mean()*252-(risk+Beta(df)*(yr_bench-risk))
+    return Alpha
+
+def VaR(df,confidence=0.95):
+    var=df.pct_change().quantile(1-confidence)
+    return var
+
+def parametric_VaR(df,confidence=0.95):
+    returns=df.pct_change().mean()
+    std=df.pct_change().std()
+    z=stats.norm.ppf(1-confidence)
+    Pvar=returns-(std*z)
+    return Pvar
