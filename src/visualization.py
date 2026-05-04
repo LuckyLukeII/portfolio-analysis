@@ -48,7 +48,7 @@ def rolling_volatility(df,tickers):
 def returns(df,tickers):
     returns=df.pct_change()
 
-    fig,axes=plt.subplots(1,5,figsize=(18,4))
+    fig,axes=plt.subplots(1,len(tickers),figsize=(len(tickers)*4,4))
     fig.suptitle("Daily Returns Distribution",fontsize=14,fontweight="bold")
 
     for ticker,ax in zip(tickers,axes):
