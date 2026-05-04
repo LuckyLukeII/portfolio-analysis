@@ -1,6 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import sys
+sys.path.append('..')
+from src.metrics import Rolling_Sharpe, Drawdown
 
 def normalized_prizes(df,tickers):
     df_normalized=100*df/df.iloc[0]
@@ -53,4 +56,36 @@ def returns(df,tickers):
         ax.set_title(ticker)
         ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:.1%}'))
         ax.tick_params(axis="x", rotation=30)
+    return fig
+
+def rolling_sharpe_graph(df,tickers):
+    Rsharpe=Rolling_Sharpe(df)
+    
+    fig, ax = plt.subplots(figsize=(12, 6))
+    fig.suptitle("Rolling Sharpe (60 days)", fontsize=14, fontweight="bold")
+
+    for ticker in tickers:
+        ax.plot(Rsharpe.index, Rsharpe[ticker], label=ticker)
+
+    handles, labels = ax.get_legend_handles_labels()
+    fig.legend(handles, labels, bbox_to_anchor=(1.05, 0.5), loc="center left")
+    fig.supylabel("Sharpe")
+    ax.tick_params(axis="x", rotation=30)
+    ax.grid(True, alpha=0.3)
+    return fig
+
+def drawdown_graph(df,tickers):
+    drawdown=Drawdown(df)
+
+    fig, ax=plt.subplots(figsize=(12, 6))
+    fig.suptitle("Drawdown", fontsize=14, fontweight="bold")
+
+    for ticker in tickers:
+        ax.plot(drawdown.index, drawdown[ticker], label=ticker)
+
+    handles, labels=ax.get_legend_handles_labels()
+    fig.legend(handles, labels, bbox_to_anchor=(1.05, 0.5), loc="center left")
+    fig.supylabel("Drawdown")
+    ax.tick_params(axis="x", rotation=30)
+    ax.grid(True, alpha=0.3)
     return fig

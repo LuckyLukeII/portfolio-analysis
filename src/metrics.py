@@ -16,11 +16,24 @@ def Sharpe(df,risk=0.04):
     sharpe=(df.pct_change().mean()*252-risk)/yr_vol
     return sharpe
 
+def Rolling_Sharpe(df,window=60,risk=0.04):
+    returns=df.pct_change()
+    Roll_mean=returns.rolling(window).mean()*252
+    Roll_vol=returns.rolling(window).std()*(252**0.5)
+    Roll_sharpe=(Roll_mean-risk)/Roll_vol
+    return Roll_sharpe
+
+
 def Sortino(df,risk=0.04):
     returns=df.pct_change()
     yr_vol=returns[returns<0].std()*(252**0.5)
     sortino=(returns.mean()*252-risk)/yr_vol
     return sortino
+
+def Drawdown(df):
+    Cmax=df.cummax()
+    drawdown=(df-Cmax)/Cmax
+    return drawdown
 
 def Max_Drawdown(df):
     Cmax=df.cummax()
