@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import sys
 sys.path.append('..')
+import os
+sys.path.insert(0,os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import matplotlib.pyplot as plt
 from src.data_loader import load_prices
 from src.metrics import CAGR, YR_Volatility, Sharpe, Sortino, Max_Drawdown, Calmar_Ratio, Beta, Jensen, VaR, parametric_VaR
