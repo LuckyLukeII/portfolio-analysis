@@ -15,7 +15,7 @@ st.sidebar.header('Settings')
 
 selected=st.sidebar.multiselect(
     'Select tickers',
-    ['QQQ','GLD','TLT','MSFT','AAPL','AMZN','BTC-USD'],
+    ['QQQ','GLD','TLT','MSFT','AAPL','AMZN'],
     default=['QQQ','GLD','TLT','MSFT']
 )
 tickers=["SPY"]+selected
