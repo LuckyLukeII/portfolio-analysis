@@ -62,5 +62,5 @@ def parametric_VaR(df,confidence=0.95):
     returns=df.pct_change().mean()
     std=df.pct_change().std()
     z=stats.norm.ppf(1-confidence)
-    Pvar=returns-(std*z)
+    Pvar=returns+(std*z)
     return Pvar
